@@ -18,9 +18,9 @@ public class Game extends JPanel implements MouseListener{
 	private int player = 0;
 	private int[] scores;
 	private String[] names;
-	static public final int WIDTH = 420;
+	static public final int WIDTH = 400;
 	static public final int HEIGHT = 500;
-	static private final int SIZE = 3;
+	static private final int SIZE = 4;
 	private TTT board = new TTT(this,SIZE);
 	
 	public Game()
@@ -31,8 +31,17 @@ public class Game extends JPanel implements MouseListener{
 		names = new String[2];
 		names[0] = "Player 1";
 		names[1] = "player 2"; 
-		board.setPosition(25, 80);
+		board.setPosition(35, 80);
 		addMouseListener(this);
+	}
+	
+	public void restart()
+	{
+		scores[0] = 0;
+		scores[1] = 0;
+		player = 0;
+		board.clearAll();		
+		repaint();
 	}
 	
 	@Override
@@ -65,6 +74,11 @@ public class Game extends JPanel implements MouseListener{
 		
 	}
 	
+	public void namePlayer(int player,String name)
+	{
+		names[player] = name;
+		repaint();
+	}
 	public int getPlayer()
 	{
 		return player;
@@ -91,35 +105,25 @@ public class Game extends JPanel implements MouseListener{
     public void mouseReleased(MouseEvent e) {
     	if (board.mouseReleased(e,player)) 
     	{
-    	  int again = JOptionPane.YES_NO_OPTION;
     	  boolean over = false;
     	  if (board.checkWin(board.getMark(player)))
     	  {
     		over =true;
     		scores[player]++;
-    	    again = JOptionPane.showConfirmDialog(this,"Winner is player "+ names[player]+"! Start a new game?","Game Over",JOptionPane.YES_NO_OPTION);
+    	    JOptionPane.showMessageDialog(this,"Winner is player "+ names[player]+"!");
     	  }
     	  else if (board.isFull())
     	  {
     		over = true;
-    		again = JOptionPane.showConfirmDialog(this,"The board is full. Start a new game?","Game Over",JOptionPane.YES_NO_OPTION );
+    		JOptionPane.showMessageDialog(this,"The board is full.");
     	  }
-    	  if ( over && again == JOptionPane.YES_OPTION)
+    	  if (over)
+    	  {
   			board.clearAll();
-  		  else if (over && again == JOptionPane.NO_OPTION)
-  			System.exit(ABORT);
+  			repaint();
+    	  }
     	  changePlayer();
     	}
     }  
-    
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		JFrame frame = new JFrame("Tic-Tac-Toe");
-		Game game = new Game();
-		frame.add(game);
-		frame.setSize(WIDTH,HEIGHT);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
 
 }

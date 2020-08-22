@@ -89,7 +89,7 @@ public class TTT {
 				        }
 				        
 				}
-	game.repaint();
+	
 	}
 
 	public boolean checkWin(String player)
