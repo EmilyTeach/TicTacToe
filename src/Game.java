@@ -31,7 +31,7 @@ public class Game extends JPanel implements MouseListener{
 		names = new String[2];
 		names[0] = "Player 1";
 		names[1] = "player 2"; 
-		board.setPosition(30, 80);
+		board.setPosition(25, 80);
 		addMouseListener(this);
 	}
 	
